@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 struct MainWeatherData: Codable {
     let name: String
@@ -31,7 +32,7 @@ struct Weather: Codable {
 }
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,CLLocationManagerDelegate {
     
     @IBOutlet weak var CityNameLabel: UILabel!
     
@@ -46,7 +47,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var WindSpeedLabel: UILabel!
     
     //Step - 1 --> URL String
-    let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Waterloo,ca&appid=c2011a89d9569314651c56e8f075f98f&units=metric"
+   
     
     var cityName:String = ""
     var weatherMain: String = ""
@@ -55,15 +56,30 @@ class ViewController: UIViewController {
     var windSpeed: Double = 0
     var icon: String = ""
     
-    
+    var locationManager = CLLocationManager()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        
+        
         // Do any additional setup after loading the view.
         
+     
+    
+    }
+    
+    func getUserLocationData(lat: String,long : String){
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+long+"&appid=c2011a89d9569314651c56e8f075f98f&units=metric"
         //Step - 2 ---> URL Session
         let urlSession = URLSession(configuration: .default)
         let url = URL(string: urlString)
+        
         
         if let url = url{
             //Step - 3 --->Create a data task
@@ -77,13 +93,13 @@ class ViewController: UIViewController {
                     
                         let readableData = try jsonDecoder.decode(MainWeatherData.self, from: data)
 
-                        print("Place: ",readableData.name) //Place
-                        print("Weather Details: ",readableData.weather[0])
-                        print("Weather: ",readableData.weather[0].main) //Weather
-                        print("Humidity: ",readableData.main.humidity,"%")   //Humidity
-                        print("Temperature: ",readableData.main.temp,"°")   //Temperature
-                        print("WindSpeed: ",readableData.wind.speed,"km/h")      //WindSpeed
-                    
+//                        print("Place: ",readableData.name) //Place
+//                        print("Weather Details: ",readableData.weather[0])
+//                        print("Weather: ",readableData.weather[0].main) //Weather
+//                        print("Humidity: ",readableData.main.humidity,"%")   //Humidity
+//                        print("Temperature: ",readableData.main.temp,"°")   //Temperature
+//                        print("WindSpeed: ",readableData.wind.speed,"km/h")      //WindSpeed
+//
                         DispatchQueue.main.async {
                             self.cityName = readableData.name
                             self.weatherMain = readableData.weather[0].main
@@ -129,5 +145,19 @@ class ViewController: UIViewController {
             dataTask.resume()
         }
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let userLocation :CLLocation = locations[0] as CLLocation
+        let lat = String(userLocation.coordinate.latitude)
+        let long = String(userLocation.coordinate.longitude)
+        getUserLocationData(lat: lat, long: long)
+        print("user latitude = \(userLocation.coordinate.latitude)")
+        print("user longitude = \(userLocation.coordinate.longitude)")
+
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error \(error)")
+    }
+
 }
 
