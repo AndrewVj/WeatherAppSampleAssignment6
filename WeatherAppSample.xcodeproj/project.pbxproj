@@ -24,6 +24,8 @@
 		25EDDEAD2754006700980553 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		25EDDEB02754006700980553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		25EDDEB22754006700980553 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		25EDDF222755603500980553 /* Waterloo.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Waterloo.gpx; sourceTree = "<group>"; };
+		25EDDF232755603500980553 /* Toronto.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Toronto.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,8 @@
 		25EDDEA32754006500980553 /* WeatherAppSample */ = {
 			isa = PBXGroup;
 			children = (
+				25EDDF222755603500980553 /* Waterloo.gpx */,
+				25EDDF232755603500980553 /* Toronto.gpx */,
 				25EDDEA42754006500980553 /* AppDelegate.swift */,
 				25EDDEA62754006500980553 /* SceneDelegate.swift */,
 				25EDDEA82754006500980553 /* ViewController.swift */,

@@ -13,6 +13,12 @@ struct MainWeatherData: Codable {
     let weather: [Weather]
     let wind: Wind
     let main: Main
+    let coord: Coord
+}
+
+struct Coord: Codable {
+    let lat: Double
+    let lon: Double
 }
 
 struct Main: Codable {
@@ -55,6 +61,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     var humidityPercent: Int = 0
     var windSpeed: Double = 0
     var icon: String = ""
+    var longitude: Double = 0
+    var latitude: Double = 0
     
     var locationManager = CLLocationManager()
 
@@ -93,13 +101,14 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
                     
                         let readableData = try jsonDecoder.decode(MainWeatherData.self, from: data)
 
-//                        print("Place: ",readableData.name) //Place
-//                        print("Weather Details: ",readableData.weather[0])
-//                        print("Weather: ",readableData.weather[0].main) //Weather
-//                        print("Humidity: ",readableData.main.humidity,"%")   //Humidity
-//                        print("Temperature: ",readableData.main.temp,"°")   //Temperature
-//                        print("WindSpeed: ",readableData.wind.speed,"km/h")      //WindSpeed
-//
+                        print("Place: ",readableData.name) //Place
+                        print("Weather: ",readableData.weather[0].main) //Weather
+                        print("Humidity: ",readableData.main.humidity,"%")   //Humidity
+                        print("Temperature: ",readableData.main.temp,"°")   //Temperature
+                        print("WindSpeed: ",readableData.wind.speed,"km/h")      //WindSpeed
+                        print("Latitude: ", readableData.coord.lat) //Latitude
+                        print("Longitude: ",readableData.coord.lon) //Longitude
+                        
                         DispatchQueue.main.async {
                             self.cityName = readableData.name
                             self.weatherMain = readableData.weather[0].main
@@ -155,6 +164,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         print("user longitude = \(userLocation.coordinate.longitude)")
 
     }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error \(error)")
     }
