@@ -167,6 +167,11 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error \(error)")
+        //Toronto Latitude and Longitiude
+        //Hardcoded incase we encounter an error
+        latitude = 43.7001
+        longitude = -79.4163
+        getUserLocationData(lat: String(latitude), long: String(longitude))
     }
 
 }
